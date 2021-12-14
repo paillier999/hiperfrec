@@ -1,0 +1,65 @@
+#hiperfrecuentadores julio, junio, agosto
+library(tidyverse)
+library(readxl)
+hiper <- read_excel("datos/hiper.xls")
+
+hiper <- hiper %>% 
+  mutate_if(is.character, str_trim)
+
+hiper %>% 
+  group_by(sede) %>% 
+  mutate(conteo = n()) %>%
+  ggplot(aes(x=reorder(sede,conteo))) +
+  geom_bar() +
+  labs( title = "Hiperfrecuentadores junio - agosto 2021",x="Sede", y= "", 
+        caption = "Fuente: datos de Hosvital")
+
+
+hiper %>% 
+  group_by(Especialidad) %>% 
+  mutate(conteo = n()) %>%
+  ggplot(aes(x=reorder(Especialidad,conteo))) +
+  geom_bar() +
+  coord_flip() +
+  labs( title = "Hiperfrecuentadores junio - agosto 2021",x="Especialidad", y= "", 
+        caption = "Fuente: datos de Hosvital", tag = "Figura 1")
+
+hiper %>% 
+  group_by(NombreContrato) %>% 
+  mutate(conteo = n()) %>%
+  ggplot(aes(x=reorder(NombreContrato,conteo))) +
+  geom_bar() +
+  coord_flip() +
+  labs( title = "Hiperfrecuentadores junio - agosto 2021",x="Asegurador", y= "", 
+        caption = "Fuente: datos de Hosvital")
+
+hiper %>% 
+  group_by(NombreContrato) %>% 
+  mutate(conteo = n()) %>%
+  ggplot(aes(x=reorder(NombreContrato,conteo), fill=Especialidad)) +
+  geom_bar() +
+  coord_flip() +
+  labs( title = "Hiperfrecuentadores junio - agosto 2021", 
+        subtitle = "Asegurador por especialidad",x="Asegurador", y= "", 
+        caption = "Fuente: datos de Hosvital", tag = "Figura 2")
+
+
+hiper %>%
+  filter(Especialidad=="ORTOPEDIA Y TRAUMATOLOGIA") %>% 
+  group_by(NombreMedico) %>% 
+  mutate(conteo = n()) %>%
+  ggplot(aes(x=reorder(NombreMedico,conteo))) +
+  geom_bar() +
+  coord_flip() +
+  labs( title = "Hiperfrecuentadores junio - agosto 2021", 
+        subtitle = "Ortopedista",x="", y= "", 
+        caption = "Fuente: datos de Hosvital", tag = "Figura 4")
+
+hiper %>% 
+  group_by(NombreMedico) %>% 
+  mutate(conteo = n()) %>%
+  ggplot(aes(x=reorder(NombreMedico,conteo))) +
+  geom_bar() +
+  coord_flip() +
+  labs( title = "Hiperfrecuentadores junio - agosto 2021",x="Médico", y= "", 
+        caption = "Fuente: datos de Hosvital", tag = "Figura 3")
